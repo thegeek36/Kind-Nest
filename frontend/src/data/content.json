@@ -1,0 +1,88 @@
+
+{ 
+  "navigation": {
+    "logo": "Kind Nest",
+    "links": [
+      { "title": "Home", "path": "/hero" },
+      { "title": "About", "path": "/about" },
+      { "title": "What We Do", "path": "/what-we-do" },
+      { "title": "Gallery", "path": "/gallery" },
+      { "title": "Donate", "path": "/donate" },
+      { "title": "Contact", "path": "/contact" }
+    ]
+  },
+  "hero": {
+    "title": "Give Hope, Change Lives",
+    "subtitle": "Join us in creating a brighter future for children in need.",
+    "sliderImages": [
+      { "id": 1, "alt": "Children smiling" },
+      { "id": 2, "alt": "Learning together" },
+      { "id": 3, "alt": "A happy community" },
+      { "id": 4, "alt": "Outdoor activities" }
+    ],
+    "ctaText": "Support Us",
+    "ctaLink": "/donate"
+  },
+  "about": {
+    "title": "About Kind Nest",
+    "description": "At Kind Nest, we provide a safe haven for children in need. Over the past 20 years, we have dedicated ourselves to offering love, education, and the tools to succeed in life. Our team ensures every child has the opportunity to dream big and achieve their full potential.",
+    "stats": [
+      { "number": "200+", "label": "Children Supported" },
+      { "number": "20+", "label": "Years of Service" },
+      { "number": "60+", "label": "Dedicated Volunteers" }
+    ]
+  },
+  "whatWeDo": {
+    "title": "What We Do",
+    "description": "Empowering children through comprehensive support programs.",
+    "metrics": [
+      { "number": "150+", "label": "Orphans Cared For" },
+      { "number": "20+", "label": "Years of Commitment" },
+      { "number": "10+", "label": "Facilities Available" },
+      { "number": "500+", "label": "Volunteers Engaged" }
+    ],
+    "facilities": [
+      { "title": "Education", "description": "Quality education for all age groups.", "icon": "book-open" },
+      { "title": "Healthcare", "description": "Access to medical care and regular check-ups.", "icon": "heartbeat" },
+      { "title": "Nutrition", "description": "Nutritious meals for growing minds and bodies.", "icon": "utensils" },
+      { "title": "Recreational Activities", "description": "Sports, arts, and music for holistic development.", "icon": "smile" },
+      { "title": "Counseling", "description": "Emotional and psychological support.", "icon": "users" },
+      { "title": "Training", "description": "Vocational and life skills development for future success.", "icon": "graduation-cap" }
+    ]
+  },
+  "gallery": {
+    "title": "Our Gallery",
+    "description": "Snapshots of the moments we cherish and the lives we touch.",
+    "images": [
+      { "id": 1, "url": "/api/placeholder/400/300", "alt": "Group activity" },
+      { "id": 2, "url": "/api/placeholder/400/300", "alt": "Children learning" },
+      { "id": 3, "url": "/api/placeholder/400/300", "alt": "Sports day event" },
+      { "id": 4, "url": "/api/placeholder/400/300", "alt": "Volunteer session" },
+      { "id": 5, "url": "/api/placeholder/400/300", "alt": "Community gathering" }
+    ]
+  },
+  "donate": {
+    "title": "Support Our Mission",
+    "description": "Your generosity can transform lives. Every contribution makes a significant impact.",
+    "message": "Help us provide a brighter future for children by donating today. Together, we can make a difference.",
+    "options": [
+      { "type": "Financial Contributions", "icon": "dollar-sign" },
+      { "type": "Books & Educational Supplies", "icon": "book" },
+      { "type": "Clothing & Daily Essentials", "icon": "box" },
+      { "type": "Volunteer Opportunities", "icon": "hands-helping" }
+    ]
+  },
+  "contact": {
+    "title": "Contact Us",
+    "description": "We would love to hear from you! Reach out to us for any inquiries or to learn more about our mission.",
+    "address": "Kind Nest, 456 Hope Lane, City, Country",
+    "email": "info@kindnest.org",
+    "phone": "+1 123 456 7890",
+    "socialMedia": [
+      { "platform": "Facebook", "link": "#", "icon": "facebook" },
+      { "platform": "Twitter", "link": "#", "icon": "twitter" },
+      { "platform": "Instagram", "link": "#", "icon": "instagram" },
+      { "platform": "LinkedIn", "link": "#", "icon": "linkedin" }
+    ]
+  }
+}

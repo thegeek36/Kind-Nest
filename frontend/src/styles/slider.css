@@ -1,0 +1,18 @@
+/* General hero container styles */
+.home-container {
+    overflow: hidden;
+  }
+  
+  /* Slider dots styles */
+  .slick-dots {
+    bottom: 20px;
+  }
+  
+  .slick-dots li button:before {
+    color: white;
+  }
+  
+  .slick-slide img {
+    border-radius: 8px;
+  }
+  
