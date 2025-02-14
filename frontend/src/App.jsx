@@ -9,6 +9,12 @@ import Loader from './components/Loader';
 // Lazy-loaded pages for code splitting
 const Home = React.lazy(() => import('./pages/Home'));
 const StaffLogin = React.lazy(() => import('./pages/StaffLogin'));
+const StaffRegister = React.lazy(() => import('./pages/StaffRegister'));
+const DashboardLayout = React.lazy(() => import('./pages/DashboardLayout'));
+const InventoryDetails = React.lazy(() => import('./pages/InventoryDetails'));
+const OrphanDetails = React.lazy(() => import('./pages/OrphanDetails'));
+const DonorsList = React.lazy(() => import('./pages/DonorsList'));
+
 const NotFound = React.lazy(() => import('./pages/NotFound')); // New NotFound page
 
 const App = () => {
@@ -24,7 +30,11 @@ const App = () => {
 
                 {/* Staff login page */}
                 <Route path="/staff-login" element={<StaffLogin />} />
-
+                <Route path="/staff-register" element={<StaffRegister />} />
+                <Route path="/dashboard" element={<DashboardLayout />} />
+                <Route path="/inventory-details" element={<InventoryDetails />} />
+                <Route path="/orphan-details" element={<OrphanDetails />} />
+                <Route path="/donors-list" element={<DonorsList />} />
                 {/* 404 Not Found page */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
