@@ -1,6 +1,6 @@
 # Kind-Nest
 
-Welcome to **Kind-Nest**! This project is a full-stack web application that consists of a **frontend** and a **backend** using **Django Rest Framework (DRF)** for the backend and a modern frontend framework.
+Welcome to **Kind-Nest**! This project is a full-stack web application that consists of a **frontend** and a **backend** using **Flask** for the backend and a modern frontend framework.
 
 ## Project Structure
 
@@ -9,7 +9,8 @@ Kind-Nest/
 │
 ├── frontend/        # Contains frontend code
 │
-└── backend/         # Contains backend (DRF) code
+└── backend/         # Contains backend (Flask) code
+    └── app/          # Flask application
 ```
 
 ---
@@ -29,12 +30,12 @@ Ensure you have the following installed:
 
 ---
 
-### Backend Setup (Django Rest Framework)
+### Backend Setup (Flask)
 
 1. **Navigate to the backend folder:**
 
    ```bash
-   cd backend
+   cd backend/app
    ```
 
 2. **Create and activate a virtual environment:**
@@ -53,20 +54,20 @@ Ensure you have the following installed:
 
 4. **Set up environment variables:**
 
-   - Create a `.env` file in the `backend` folder.
-   - Add any necessary environment variables (e.g., `DJANGO_SECRET_KEY`, `DEBUG`, database settings).
+   - Create a `.env` file in the `backend/app` folder.
+   - Add any necessary environment variables (e.g., `FLASK_SECRET_KEY`, `DEBUG`, database settings).
 
-5. **Run migrations:**
+5. **Run database migrations (if applicable):**
 
-   ```bash
-   python manage.py migrate
-   ```
+   Flask doesn't have a built-in migration tool like Django, so make sure you've created any necessary database tables manually or using an ORM like SQLAlchemy.
 
 6. **Start the backend server:**
 
    ```bash
-   python manage.py runserver
+   flask run
    ```
+
+   By default, Flask will start the server on `http://localhost:5000`.
 
 ---
 
@@ -99,7 +100,7 @@ Ensure you have the following installed:
 ## Usage
 
 - **Frontend:** Open your browser and navigate to `http://localhost:3000` (or the default port your frontend uses).
-- **Backend:** API will be available at `http://localhost:8000` (or another port if specified).
+- **Backend:** API will be available at `http://localhost:5000` (or another port if specified).
 
 ---
 
@@ -123,4 +124,3 @@ Ensure you have the following installed:
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-

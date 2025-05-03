@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const StaffRegister = () => {
   const [formData, setFormData] = useState({
     email: '',
     name: '',
-    dob: '',
-    sex: '',
     password: '',
   });
   const [showPassword, setShowPassword] = useState(false);
   const [emailError, setEmailError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  
+  const navigate = useNavigate();
 
   // Email validation regex
   const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
@@ -24,11 +28,45 @@ const StaffRegister = () => {
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateEmail(formData.email)) {
-      console.log('Form submitted:', formData);
-      // Add your registration logic here
+      try {
+        setLoading(true);
+        setError('');
+        setSuccess('');
+        
+        const response = await fetch('http://127.0.0.1:5000/api/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            password: formData.password
+          }),
+        });
+
+        const data = await response.json();
+        
+        if (response.status === 201) {
+          // Registration successful - show success message
+          setSuccess('Registration successful! Redirecting to login page...');
+          
+          // Wait for 2 seconds before redirecting to login
+          setTimeout(() => {
+            navigate('/staff-login');
+          }, 2000);
+        } else {
+          setError(data.message || 'Registration failed. Please try again.');
+        }
+      } catch (err) {
+        setError('An error occurred. Please try again later.');
+        console.error('Registration error:', err);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -48,6 +86,18 @@ const StaffRegister = () => {
           </h1>
           <p className="text-gray-600 mt-2">Create your account</p>
         </div>
+
+        {error && (
+          <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+            {error}
+          </div>
+        )}
+
+        {success && (
+          <div className="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded">
+            {success}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Name Field */}
@@ -85,40 +135,6 @@ const StaffRegister = () => {
             )}
           </div>
 
-          {/* Date of Birth Field */}
-          <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">
-              Date of Birth
-            </label>
-            <input
-              type="date"
-              name="dob"
-              value={formData.dob}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
-
-          {/* Sex Field */}
-          <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">
-              Sex
-            </label>
-            <select
-              name="sex"
-              value={formData.sex}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            >
-              <option value="">Select gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-
           {/* Password Field */}
           <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-700">
@@ -152,15 +168,16 @@ const StaffRegister = () => {
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            disabled={loading}
           >
-            Register
+            {loading ? 'Registering...' : 'Register'}
           </button>
 
           {/* Login Link */}
           <div className="text-center">
             <p className="text-gray-600">
               Already have an account?{' '}
-              <a href="/login" className="text-blue-600 hover:text-blue-700">
+              <a href="/staff-login" className="text-blue-600 hover:text-blue-700">
                 Login here
               </a>
             </p>

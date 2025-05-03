@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const StaffLogin = () => {
   const [formData, setFormData] = useState({
@@ -8,9 +9,28 @@ const StaffLogin = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [emailError, setEmailError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  
+  const navigate = useNavigate();
 
   // Email validation regex
   const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+  // Effect to redirect after showing success message
+  useEffect(() => {
+    let redirectTimer;
+    if (successMessage) {
+      redirectTimer = setTimeout(() => {
+        navigate('/dashboard');
+      }, 2000); // Redirect after 2 seconds
+    }
+    
+    return () => {
+      if (redirectTimer) clearTimeout(redirectTimer);
+    };
+  }, [successMessage, navigate]);
 
   const validateEmail = (email) => {
     if (!emailRegex.test(email)) {
@@ -21,11 +41,43 @@ const StaffLogin = () => {
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateEmail(formData.email)) {
-      console.log('Form submitted:', formData);
-      // Add your login logic here
+      try {
+        setLoading(true);
+        setError('');
+        
+        const response = await fetch('http://127.0.0.1:5000/api/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password
+          }),
+        });
+
+        const data = await response.json();
+        
+        if (response.ok) {
+          // Store token in localStorage
+          localStorage.setItem('token', data.token);
+          
+          // Set success message
+          setSuccessMessage('Login successful! Redirecting to dashboard...');
+          
+          // Redirect will happen via useEffect after showing the message
+        } else {
+          setError(data.message || 'Login failed. Please check your credentials.');
+        }
+      } catch (err) {
+        setError('An error occurred. Please try again later.');
+        console.error('Login error:', err);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -45,6 +97,18 @@ const StaffLogin = () => {
           </h1>
           <p className="text-gray-600 mt-2">Login to the portal</p>
         </div>
+
+        {error && (
+          <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+            {error}
+          </div>
+        )}
+
+        {successMessage && (
+          <div className="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded transition-all duration-300 animate-pulse">
+            {successMessage}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Email Field */}
@@ -96,13 +160,13 @@ const StaffLogin = () => {
           </div>
 
           {/* Submit Button */}
-          {/* <button
+          <button
             type="submit"
             className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-          > */}
-          <br></br>
-          <a href="/dashboard" className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Login</a>  
-          {/* </button> */}
+            disabled={loading || successMessage !== ''}
+          >
+            {loading ? 'Logging in...' : 'Login'}
+          </button>
 
           {/* Register Link */}
           <div className="text-center">
