@@ -18,7 +18,9 @@ const Events = React.lazy(() => import('./pages/Events'));
 const Donations = React.lazy(() => import('./pages/Donations'));
 const NotFound = React.lazy(() => import('./pages/NotFound'));
 const UserList = React.lazy(() => import('./pages/UserProfile'));
-
+const DonorLogin = React.lazy(() => import('./pages/DonorLogin'));
+const DonorRegister = React.lazy(() => import('./pages/DonorRegister'));
+const DonorPortal = React.lazy(() => import('./pages/DonorPortal'));
 
 const App = () => {
   return (
@@ -52,7 +54,31 @@ const App = () => {
                   <Footer />
                 </>
               } />
-
+              {/* ✅ Donor routes */}
+            <Route path="/donor-login" element={
+              <>
+                <main className="flex-grow">
+                  <DonorLogin />
+                </main>
+                <Footer />
+              </>
+            } />
+            <Route path="/donor-register" element={
+              <>
+                <main className="flex-grow">
+                  <DonorRegister />
+                </main>
+                <Footer />
+              </>
+            } />
+              <Route path="/donor-portal" element={
+              <>
+                <main className="flex-grow">
+                  <DonorPortal />
+                </main>
+              </>
+            } />
+            
               {/* Dashboard routes - nested within DashboardLayout */}
               <Route path="dashboard" element={<DashboardLayout />}>
                 <Route path="inventory" element={<InventoryDetails />} />

@@ -6,5 +6,7 @@ from .inventory_routes import bp as inventory_routes
 from .donation_routes import bp as donation_routes
 from .event_routes import bp as event_routes
 from .dashboard_routes import bp as dashboard_routes
+from .donor_routes  import bp as donor_routes
+
 
 

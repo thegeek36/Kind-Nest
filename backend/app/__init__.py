@@ -48,6 +48,7 @@ def create_app():
     from app.routes.donation_routes import bp as donation_bp
     from app.routes.event_routes import bp as event_bp
     from app.routes.dashboard_routes import bp as dashboard_bp
+    from app.routes.donor_routes import bp as donor_routes_bp
     print("✅ Registering dashboard blueprint")
     
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
@@ -57,6 +58,7 @@ def create_app():
     app.register_blueprint(donation_bp, url_prefix='/api/donations')
     app.register_blueprint(event_bp, url_prefix='/api/events')
     app.register_blueprint(dashboard_bp, url_prefix='/api/dashboard')
+    app.register_blueprint(donor_routes_bp, url_prefix='/api/donors')
 
     return app
 

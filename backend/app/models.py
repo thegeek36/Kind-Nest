@@ -14,6 +14,39 @@ class User(db.Model):
     def check_password(self, password):
         return bcrypt.check_password_hash(self.password_hash, password)
     
+# New Donor model for donor authentication
+class Donor(db.Model):
+    __tablename__ = 'donors'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), unique=True, nullable=False)
+    password_hash = db.Column(db.String(128), nullable=False)
+    phone = db.Column(db.String(20))
+    address = db.Column(db.String(200))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    is_active = db.Column(db.Boolean, default=True)
+    
+    # Relationship with donations
+    donations = db.relationship('Donation', backref='donor_account', lazy=True)
+
+    def set_password(self, password):
+        self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+
+    def check_password(self, password):
+        return bcrypt.check_password_hash(self.password_hash, password)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "email": self.email,
+            "phone": self.phone,
+            "address": self.address,
+            "created_at": self.created_at.isoformat(),
+            "is_active": self.is_active
+        }
+
 
 class Orphan(db.Model):
     __tablename__ = 'orphans'
@@ -61,28 +94,34 @@ class Volunteer(db.Model):
             "join_date": self.join_date.isoformat()
         }
     
+# Updated Donation model to link with Donor accounts
 class Donation(db.Model):
     __tablename__ = 'donations'
 
     id = db.Column(db.Integer, primary_key=True)
-    donor_name = db.Column(db.String(100), nullable=False)
+    donor_id = db.Column(db.Integer, db.ForeignKey('donors.id'), nullable=True)  # Link to donor account
+    donor_name = db.Column(db.String(100), nullable=False)  # Keep for backward compatibility
     age = db.Column(db.Integer, nullable=True)
-    donation_type = db.Column(db.String(50), nullable=False)  # Money or Things
+    donation_type = db.Column(db.String(50), nullable=False)  # Money or Items
     amount = db.Column(db.Float, nullable=True)
-    donated_items = db.Column(db.JSON, nullable=True)  # [{'item': 'Rice', 'quantity': 5}]
+    donated_items = db.Column(db.JSON, nullable=True)  # [{'item': 'Rice', 'quantity': 5, 'category': 'Food'}]
     date = db.Column(db.DateTime, default=datetime.utcnow)
+    status = db.Column(db.String(20), default='completed')  # completed, pending, cancelled
+    notes = db.Column(db.Text)
 
     def to_dict(self):
         return {
             "id": self.id,
+            "donor_id": self.donor_id,
             "donor_name": self.donor_name,
             "age": self.age,
             "donation_type": self.donation_type,
             "amount": self.amount,
             "donated_items": self.donated_items,
-            "date": self.date.isoformat() if self.date else None
+            "date": self.date.isoformat() if self.date else None,
+            "status": self.status,
+            "notes": self.notes
         }
-
 
 
 class Event(db.Model):

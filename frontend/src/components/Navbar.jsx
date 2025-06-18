@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ChevronDown } from 'lucide-react';
 import content from '../data/content.json';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { navigation } = content;
 
   const handleScroll = (path) => {
@@ -47,12 +48,36 @@ const Navbar = () => {
                 {link.title}
               </button>
             ))}
-            <a
-              href="/staff-login"
-              className="bg-yellow-400 text-white px-4 py-2 rounded-md hover:bg-yellow-500 transition-colors"
-            >
-              Staff Login
-            </a>
+            
+            {/* Login Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="bg-yellow-400 text-white px-4 py-2 rounded-md hover:bg-yellow-500 transition-colors flex items-center gap-2"
+              >
+                Login
+                <ChevronDown size={16} />
+              </button>
+              
+              {isDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                  <a
+                    href="/staff-login"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    onClick={() => setIsDropdownOpen(false)}
+                  >
+                    Staff Login
+                  </a>
+                  <a
+                    href="/donor-login"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    onClick={() => setIsDropdownOpen(false)}
+                  >
+                    Donors Login
+                  </a>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
@@ -86,6 +111,14 @@ const Navbar = () => {
                   className="block py-2 px-4 text-blue-600 font-medium hover:bg-blue-100"
                 >
                   Staff Login
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/donors-login"
+                  className="block py-2 px-4 text-blue-600 font-medium hover:bg-blue-100"
+                >
+                  Donors Login
                 </a>
               </li>
             </ul>
